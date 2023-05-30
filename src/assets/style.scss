@@ -1,0 +1,77 @@
+:root {
+  font-family: "Cabin", Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 14px;
+  letter-spacing: 0px;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+html {
+  overflow-y: scroll;
+  height: 100%;
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  overflow-y: visible;
+  position: relative;
+  overflow-x: hidden;
+  height: 100vh;
+}
+
+html,
+body,
+p,
+h1,
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}
+
+.pac-container {
+  width: 400px;
+
+  list-style-type: none;
+  border: 1px solid rgba(0, 0, 0, 0.7);
+  border-top: none;
+  border-radius: 0;
+
+  background-color: white;
+  &::after {
+    display: none;
+  }
+  .pac-item {
+    color: rgba(0, 0, 0);
+    cursor: pointer;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+    &:hover {
+      background-color: white;
+      border-top: 1px solid rgba(0, 0, 0, 0.7);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+    }
+    &:first-of-type:hover {
+      border-top: 1px solid white;
+    }
+    &:last-of-type:hover {
+      border-bottom: 1px solid white;
+    }
+    .pac-icon {
+      display: none;
+    }
+    .pac-matched {
+      font-size: 11px;
+      font-weight: 300;
+    }
+  }
+}
