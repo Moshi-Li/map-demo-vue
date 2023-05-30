@@ -1,15 +1,56 @@
 <script setup>
-import { GoogleMap, Marker } from 'vue3-google-map'
-
-defineProps({
+import { ref, onMounted, watch, onUpdated } from 'vue'
+const props = defineProps({
     locations: Object,
     center: Object
+})
+
+const mapRef = ref(null)
+const mapInstanceRef = ref(null)
+const makerRef = ref([])
+
+onUpdated(
+    () => {
+        if (mapInstanceRef.value != null) {
+            //Set Center on Props Change
+            mapInstanceRef.value.setCenter({ ...props.center })
+            //Set Center on Props Change
+            makerRef.value.forEach(marker => {
+                marker.setMap(null)
+            })
+            makerRef.value = props.locations.map(item => {
+                return new google.maps.Marker({
+                    position: { lat: item.lat, lng: item.lng },
+                    map: mapInstanceRef.value
+                })
+            })
+
+        }
+
+    }
+)
+
+onMounted(async () => {
+    if (window.MAP_INIT) {
+        const { Map } = await google.maps.importLibrary("maps");
+        mapInstanceRef.value = new Map(mapRef.value, {
+            center: props.center,
+            zoom: 10,
+            disableDefaultUI: true,
+        });
+    }
 })
 </script>
 
 <template>
-    <GoogleMap api-key="AIzaSyCcxWe-IIs24W5pM10BeJcuSsMXTMoH7qM" style="width: 100%; height: 100vh" :center="center" :zoom="10" :disable-default-ui="true">
-        <Marker v-for="(item, index) in locations" :options="{ position: { lat: item.lat, lng: item.lng } }" />
-    </GoogleMap>
+    <div id="map" ref="mapRef" class="map--container">
+    </div>
 </template>
+
+<style>
+.map--container {
+    width: 100vw;
+    height: 100vh;
+}
+</style>
   
