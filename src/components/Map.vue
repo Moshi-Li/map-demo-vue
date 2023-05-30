@@ -31,13 +31,14 @@ onUpdated(
 )
 
 onMounted(async () => {
-    if (window.MAP_INIT) {
+    if (google!==undefined) {
         const { Map } = await google.maps.importLibrary("maps");
         mapInstanceRef.value = new Map(mapRef.value, {
             center: props.center,
             zoom: 10,
             disableDefaultUI: true,
         });
+        
     }
 })
 </script>

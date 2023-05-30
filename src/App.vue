@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from "vue"
 import { useToast } from 'vue-toast-notification';
+import { Loader } from '@googlemaps/js-api-loader';
 import TestMap from './components/Map.vue'
 import SearchBar from "./components/SearchBar.vue"
 import LocationTable from "./components/Table.vue"
@@ -110,9 +111,21 @@ const locations = ref([{
         rawOffset: 28800,
     },
 ])
+const googleApiLoaded = ref(false)
+
 
 const $toast = useToast();
+const loader = new Loader({
+  apiKey: "AIzaSyCcxWe-IIs24W5pM10BeJcuSsMXTMoH7qM",
+  libraries: ["places"]
+});
 
+
+loader.load().then(()=>{
+    //window.MAP_INIT = true
+    googleApiLoaded.value = true
+
+})
 
 navigator.geolocation.getCurrentPosition(
     (locations) => {
@@ -157,9 +170,9 @@ function updateCenter(item) {
 </script>
 
 <template>
-    <TestMap :locations="locations" :center="center" />
+    <TestMap v-if="googleApiLoaded" :locations="locations" :center="center" />
     <LocationTable :locations="locations" @update-center="updateCenter" @remove-location="removeLocation" />
-    <SearchBar @add-location="addLocation" @update-center="updateCenter" :center="center" />
+    <SearchBar v-if="googleApiLoaded" @add-location="addLocation" @update-center="updateCenter" :center="center" />
 </template>
 
 <style scoped>
