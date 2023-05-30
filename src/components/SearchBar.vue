@@ -32,7 +32,7 @@ const updateUserLocation = () => {
 }
 
 onMounted(() => {
-    if (window.MAP_INIT) {
+    if (google !== undefined) {
         const getTimeZoneUrl = (lat, lng) => {
             return ` https://maps.googleapis.com/maps/api/timezone/json?location=${lat}%2C${lng}&timestamp=${Math.floor(new Date().getTime() / 100)}&key=AIzaSyCcxWe-IIs24W5pM10BeJcuSsMXTMoH7qM`;
         };

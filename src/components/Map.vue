@@ -7,7 +7,7 @@ const props = defineProps({
 
 const mapRef = ref(null)
 const mapInstanceRef = ref(null)
-const makerRef = ref([])
+//const makerRef = ref([])
 
 onUpdated(
     () => {
@@ -15,16 +15,16 @@ onUpdated(
             //Set Center on Props Change
             mapInstanceRef.value.setCenter({ ...props.center })
             //Set Center on Props Change
-            makerRef.value.forEach(marker => {
+            window.markers.forEach(marker=>{
                 marker.setMap(null)
             })
-            makerRef.value = props.locations.map(item => {
+
+            window.markers = props.locations.map(item => {
                 return new google.maps.Marker({
                     position: { lat: item.lat, lng: item.lng },
-                    map: mapInstanceRef.value
+                    map: mapInstanceRef.value,
                 })
             })
-
         }
 
     }
@@ -38,7 +38,19 @@ onMounted(async () => {
             zoom: 10,
             disableDefaultUI: true,
         });
-        
+        if (mapInstanceRef.value != null) {
+            //Set Center on Props Change
+            mapInstanceRef.value.setCenter({ ...props.center })
+
+            //Temp Fix
+            window.markers = props.locations.map(item => {
+                return new google.maps.Marker({
+                    position: { lat: item.lat, lng: item.lng },
+                    map: mapInstanceRef.value,
+
+                })
+            })
+        }
     }
 })
 </script>
